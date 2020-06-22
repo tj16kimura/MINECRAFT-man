@@ -1,16 +1,21 @@
 function doPost(e) {
+  // Messaging APIのリファレンスは以下
+  // https://developers.line.biz/ja/reference/messaging-api/
   var event = JSON.parse(e.postData.contents).events[0];
   var replyToken= event.replyToken;
+  
+  // replyContentsにメッセージをpushしていく（1度に送れるメッセージは最大5件まで）
   var replyContents = [];
+  // デフォルトのメッセージタイプはtext
   var replyType = 'text';
 
   if (typeof replyToken === 'undefined') {
     return; // エラー処理
   }
   
+  // グループIDとユーザーIDを取得
   var userId = event.source.userId;
   var groupId = event.source.groupId;
-  //var nickname = getUserProfile(userId);
 
   if(event.type == 'follow') { 
     // ユーザーにbotがフォローされた場合に起きる処理
@@ -20,10 +25,9 @@ function doPost(e) {
     var userMessage = event.message.text;
     var replyMessage;
     
-    
     if (userMessage == '中心'){
       replyMessage = '要塞トラップ中心座標\nx:278 y:32 z:593';
-      replyContents.push(makeMes(replyType, replyMessage));
+      replyContents.push(makeMes('text', replyMessage));
     }else if (userMessage[0] == '/'){
       var xyz = userMessage.slice(1).split('.');
       
@@ -45,15 +49,13 @@ function doPost(e) {
       }
       dis = Math.sqrt(dis);
       replyMessage = replyMessage + '\n中心までの距離: ' + String(parseInt(dis));
-      replyContents.push(makeMes(replyType, replyMessage));
+      replyContents.push(makeMes('text', replyMessage));
       
     }else if(userMessage == 'な？'){
       var user = getUserProfile(userId, groupId);
       replyMessage = user.displayName + 'に賛成!';
-      replyContents.push(makeMes(replyType, replyMessage));
-      //sendMes(replyToken, makeMes(replyType, replyMessage));
-      replyType = 'image';
-      replyContents.push(makeMes(replyType, user.pictureUrl));
+      replyContents.push(makeMes('text', replyMessage));
+      replyContents.push(makeMes('image', user.pictureUrl));
     }else if(userMessage == 'サバ'){
       replyContents.push(serverAlival());
     }
@@ -62,8 +64,9 @@ function doPost(e) {
 }
 
 function sendMes(token, message){
+  //　実際にメッセージを送信するための処理
   var url = 'https://api.line.me/v2/bot/message/reply';
-      
+  
   UrlFetchApp.fetch(url, {
     'headers': {
       'Content-Type': 'application/json; charset=UTF-8',
@@ -81,12 +84,15 @@ function sendMes(token, message){
 }
 
 function makeMes(type, content){
+  // apiに投げれるようなメッセージオブジェクトを作成する
   var ret;
+  // テキストメッセージ
   if(type == 'text'){
     ret = {
       'type': 'text',
       'text': content,
     };
+  //画像メッセージ(from URL)
   }else if(type == 'image'){
     ret = {
       'type': 'image',
@@ -98,7 +104,8 @@ function makeMes(type, content){
 }
 
 function serverAlival(){
-  // nice API thx.
+  // サーバーの状況を確認し，オンラインのユーザーを知らせる
+  // nice API. thx.
   var url = 'https://api.minetools.eu/ping/' + SERVER_IP + '/25565';
   var data = UrlFetchApp.fetch(url, {
     'method': 'get',
@@ -120,8 +127,8 @@ function serverAlival(){
   return makeMes('text', mes);
 }
 
-// profileを取得してくる関数
 function getUserProfile(userId, groupId){ 
+  // profileを取得してくる関数
   if(typeof groupId === 'undefined'){
     var url = 'https://api.line.me/v2/bot/profile/' + userId;    
   }else{
@@ -132,6 +139,6 @@ function getUserProfile(userId, groupId){
       'Authorization' :  'Bearer ' + CHANNEL_ACCESS_TOKEN,
     },
   })
-  // displayName, pictureUrl, statusMessage
+  // 得られる属性は次の3つ． -> displayName, pictureUrl, statusMessage
   return JSON.parse(userProfile);
 }
