@@ -99,7 +99,7 @@ function makeMes(type, content){
 
 function serverAlival(){
   // nice API thx.
-  var url = 'https://api.minetools.eu/ping/175.131.68.62/25565';
+  var url = 'https://api.minetools.eu/ping/' + SERVER_IP + '/25565';
   var data = UrlFetchApp.fetch(url, {
     'method': 'get',
   });
