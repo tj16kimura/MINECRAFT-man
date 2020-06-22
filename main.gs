@@ -3,6 +3,7 @@ function doPost(e) {
   var replyToken= event.replyToken;
   var replyContents = [];
   var replyType = 'text';
+  var _test = 0;
 
   if (typeof replyToken === 'undefined') {
     return; // エラー処理
@@ -49,7 +50,7 @@ function doPost(e) {
       
     }else if(userMessage == 'な？'){
       var user = getUserProfile(userId, groupId);
-      replyMessage = user.displayName + 'に賛成!';
+      replyMessage = user.displayName + 'に賛成';
       replyContents.push(makeMes(replyType, replyMessage));
       //sendMes(replyToken, makeMes(replyType, replyMessage));
       replyType = 'image';
