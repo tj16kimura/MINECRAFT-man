@@ -7,7 +7,7 @@ function doPost(e) {
   if (typeof replyToken === 'undefined') {
     return; // エラー処理
   }
-  
+
   var userId = event.source.userId;
   var groupId = event.source.groupId;
   //var nickname = getUserProfile(userId);
@@ -78,6 +78,10 @@ function sendMes(token, message){
   return ContentService.createTextOutput(
     JSON.stringify({'content': 'post ok'})
   ).setMimeType(ContentService.MimeType.JSON);
+}
+
+function sp(){
+  return;
 }
 
 function makeMes(type, content){
