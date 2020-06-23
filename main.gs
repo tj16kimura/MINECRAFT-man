@@ -25,17 +25,21 @@ function doPost(e) {
     var userMessage = event.message.text;
     var replyMessage;
     
+
     // メッセージの分岐処理はここに
     if (userMessage == '中心'){
       replyContents.push(return_position());
     } else if (userMessage[0] == '/') {
       replyContents.push(check_lighting_range(userMessage));
     } else if(userMessage == 'な？') {
+
       var user = getUserProfile(userId, groupId);
       replyMessage = user.displayName + 'に賛成!';
       replyContents.push(makeMes('text', replyMessage));
       replyContents.push(makeMes('image', user.pictureUrl));
+
     } else if(userMessage == 'サバ') {
+
       replyContents.push(serverAlival());
     }
     sendMes(replyToken, replyContents);
