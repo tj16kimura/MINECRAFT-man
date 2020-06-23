@@ -56,3 +56,19 @@ function serverAlival(){
   }
   return makeMes('text', mes);
 }
+
+function getUserProfile(userId, groupId){ 
+  // profileを取得してくる関数
+  if(typeof groupId === 'undefined'){
+    var url = 'https://api.line.me/v2/bot/profile/' + userId;    
+  }else{
+    var url = 'https://api.line.me/v2/bot/group/' + groupId + '/member/' + userId;
+  }
+  var userProfile = UrlFetchApp.fetch(url,{
+    'headers': {
+      'Authorization' :  'Bearer ' + CHANNEL_ACCESS_TOKEN,
+    },
+  })
+  // 得られる属性は次の3つ． -> displayName, pictureUrl, statusMessage
+  return JSON.parse(userProfile);
+}
