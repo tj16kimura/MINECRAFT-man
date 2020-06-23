@@ -47,7 +47,9 @@ function serverAlival(){
     mes = 'Server is Dead <3';
   }else{
     var num = data.players.online;
-    mes = '現在オンライン：' + num + '名';
+    mes = data.description + '\n';
+    mes += 'Version: ' + data.version.name + '\n';
+    mes += '現在オンライン：' + num + '名';
   }
   if(num > 0){
     for(var i=0;i<num;i++){
