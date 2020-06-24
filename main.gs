@@ -19,29 +19,37 @@ function doPost(e) {
 
   if(event.type == 'follow') { 
     // ユーザーにbotがフォローされた場合に起きる処理
+    return;
   }
   
   if(event.type == 'message') {
     var userMessage = event.message.text;
     var replyMessage;
     
-
     // メッセージの分岐処理はここに
     if (userMessage == '中心'){
       replyContents.push(return_position());
+
     } else if (userMessage[0] == '/') {
       replyContents.push(check_lighting_range(userMessage));
-    } else if(userMessage == 'な？') {
 
+    } else if(userMessage == 'な？') {
       var user = getUserProfile(userId, groupId);
       replyMessage = user.displayName + 'に賛成!';
       replyContents.push(makeMes('text', replyMessage));
       replyContents.push(makeMes('image', user.pictureUrl));
 
     } else if(userMessage == 'サバ') {
-
       replyContents.push(serverAlival());
     }
-    sendMes(replyToken, replyContents);
+    
+    // replyContentsが空の時は何もしない
+    if(replyContents.length === 0){
+      // とりあえずこれでエラーにはならなさそう
+      return 0;
+    }else{
+      sendMes(replyToken, replyContents);
+      return;
+    }
   }
 }
