@@ -39,9 +39,14 @@ function doPost(e) {
       replyContents.push(makeMes('text', replyMessage));
       replyContents.push(makeMes('image', user.pictureUrl));
 
-    } else if(userMessage == 'サバ') {
-      replyContents.push(serverAlival());
-    }
+    } else if(['さば', 'サバ', '鯖', 'saba', 'sava'].some(el => userMessage.includes(el))){
+      var random = Math.ceil(Math.random()*10);
+      if(random === 1){
+        replyContents.push(makeMes('text', 'の味噌煮'));
+      }else{
+        replyContents.push(serverAlival());
+      }
+  }
     
     // replyContentsが空の時は何もしない
     if(replyContents.length === 0){
