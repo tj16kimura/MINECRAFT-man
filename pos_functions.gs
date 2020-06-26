@@ -101,7 +101,6 @@ function reg_pos(user_input) {
   return message;
 }
 
-// upd と del を作ろう
 function upd_pos(user_input) {
   /* 施設座標を更新する関数 */
   var message = '[ERROR]';
@@ -162,6 +161,41 @@ function upd_pos(user_input) {
   return message;
 }
 
+function del_pos(name) {
+  /* 指定された施設の座標を削除する関数 */
+  var message = '[ERROR]';
+  // 入力されたnameの整合性チェック
+  if (name == null || name == '') {
+    message += ' [SYNTAX]\n/del:NAME';
+    return message;
+  }
+  // Sheet情報を取得
+  var sheet_info = get_sheet_info(SPREADSHEET_ID, 'POS', name);
+  // Sheet
+  var sheet = sheet_info[0];
+  // 行数
+  var num_row = sheet_info[1];
+  // nameの登録チェック
+  var exist_name = sheet_info[2];
+  if (exist_name == null) {
+    message += ' [REGIST]\n' + name + ' is unregistered';
+    return message;
+  }
+  
+  // 登録済みnameのセルの行を取得
+  var cell_name = exist_name.getA1Notation().slice(1);
+  
+  // nameの座標を取得
+  // pos_name[0][i]
+  var pos_name = sheet.getRange('A'+cell_name+':'+'D'+cell_name).clearContent();
+  
+  // Messageを生成
+  message = '-- DEL --\n';
+  message += name;
+  
+  return message;
+}
+
 function get_sheet_info(SHEET_ID, SHEET_NAME, name) {
   /* Sheet情報を取得 */
   // SpreadSheetを取得
@@ -195,6 +229,7 @@ function demo() {
 //  msg = upd_pos('B.1.2.3');
 //  msg = upd_pos('C.1.2.3');
 //  msg = upd_pos('B.4.5.~');
+//  msg = del_pos('B');
   
   sheet.getRange(2, 5).setValue(msg);
 }
