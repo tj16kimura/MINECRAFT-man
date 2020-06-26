@@ -30,7 +30,7 @@ function doPost(e) {
     if (userMessage == '中心'){
       replyContents.push(return_position());
 
-    } else if (userMessage[0] == '/') {
+    } else if (userMessage[0] == '/' && (isFinite(userMessage[1]) || (userMessage[1] == '-' && isFinite(userMessage[2])))) {
       replyContents.push(check_lighting_range(userMessage));
 
     } else if(userMessage == 'な？') {
@@ -46,7 +46,12 @@ function doPost(e) {
       }else{
         replyContents.push(serverAlival());
       }
-  }
+    } else {
+      replyMessage = funcController(userMessage);
+      if (replyMessage.length !== 0) {
+        replyContents.push(makeMes('text', replyMessage));
+      }
+    }
     
     // replyContentsが空の時は何もしない
     if(replyContents.length === 0){

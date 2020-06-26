@@ -1,10 +1,10 @@
 // /POSに関する関数を定義
 
-function show_list() {
+function showList() {
   /* 登録済みの施設の名前を返す関数 */
   var message = '[ERROR]';
   // Sheet情報を取得
-  var sheet_info = get_sheet_info(SPREADSHEET_ID, 'POS');
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS');
   // Sheet
   var sheet = sheet_info[0];
   // 行数
@@ -23,18 +23,18 @@ function show_list() {
   return message;
 }
 
-function ret_pos(name) {
+function returnPos(name) {
   /* 指定された施設の座標を返す関数 */
   var message = '[ERROR]';
   // 入力されたnameの整合性チェック
   if (name == null || name == '') {
     message = '## REGISTERED ##\n';
-    message += show_list();
+    message += showList();
     // nullだったらlistを表示
     return message;
   }
   // Sheet情報を取得
-  var sheet_info = get_sheet_info(SPREADSHEET_ID, 'POS', name);
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS', name);
   // Sheet
   var sheet = sheet_info[0];
   // 行数
@@ -60,7 +60,7 @@ function ret_pos(name) {
   return message;
 }
 
-function reg_pos(user_input) {
+function registPos(user_input) {
   /* 施設座標を新規に登録する関数 */
   var message = '[ERROR]';
   // user_inputの整合性チェック
@@ -77,7 +77,7 @@ function reg_pos(user_input) {
   }
   
   // Sheet情報を取得
-  var sheet_info = get_sheet_info(SPREADSHEET_ID, 'POS', split_input[0]);
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS', split_input[0]);
   // Sheet
   var sheet = sheet_info[0];
   // 行数
@@ -101,7 +101,7 @@ function reg_pos(user_input) {
   return message;
 }
 
-function upd_pos(user_input) {
+function updatePos(user_input) {
   /* 施設座標を更新する関数 */
   var message = '[ERROR]';
   // user_inputの整合性チェック
@@ -118,7 +118,7 @@ function upd_pos(user_input) {
   }
   
   // Sheet情報を取得
-  var sheet_info = get_sheet_info(SPREADSHEET_ID, 'POS', split_input[0]);
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS', split_input[0]);
   // Sheet
   var sheet = sheet_info[0];
   // 行数
@@ -161,7 +161,7 @@ function upd_pos(user_input) {
   return message;
 }
 
-function del_pos(name) {
+function deletePos(name) {
   /* 指定された施設の座標を削除する関数 */
   var message = '[ERROR]';
   // 入力されたnameの整合性チェック
@@ -170,7 +170,7 @@ function del_pos(name) {
     return message;
   }
   // Sheet情報を取得
-  var sheet_info = get_sheet_info(SPREADSHEET_ID, 'POS', name);
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS', name);
   // Sheet
   var sheet = sheet_info[0];
   // 行数
@@ -196,7 +196,7 @@ function del_pos(name) {
   return message;
 }
 
-function get_sheet_info(SHEET_ID, SHEET_NAME, name) {
+function getSheetInfo(SHEET_ID, SHEET_NAME, name) {
   /* Sheet情報を取得 */
   // SpreadSheetを取得
   var spreadsheet = SpreadsheetApp.openById(SHEET_ID);
@@ -215,21 +215,21 @@ function get_sheet_info(SHEET_ID, SHEET_NAME, name) {
   return [sheet, num_row, exist_name];
 }
 
-function demo() {
+function demo(msg) {
   // Sheet情報を取得
-  var sheet_info = get_sheet_info(SPREADSHEET_ID, 'POS');
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS');
   // Sheet
   var sheet = sheet_info[0];
   var msg;
-  msg = show_list();
-//  msg = ret_pos('Fortress');
-//  msg = ret_pos();
-//  msg = reg_pos('A.1.2.3');
-//  msg = reg_pos('B.1.2.3');
-//  msg = upd_pos('B.1.2.3');
-//  msg = upd_pos('C.1.2.3');
-//  msg = upd_pos('B.4.5.~');
-//  msg = del_pos('B');
+//  msg = showList();
+//  msg = returnPos('Fortress');
+//  msg = returnPos();
+//  msg = registPos('A.1.2.3');
+//  msg = registPos('B.1.2.3');
+//  msg = updatePos('B.1.2.3');
+//  msg = updatePos('C.1.2.3');
+//  msg = updatePos('B.4.5.~');
+//  msg = deletePos('B');
   
   sheet.getRange(2, 5).setValue(msg);
 }
