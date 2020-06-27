@@ -46,6 +46,7 @@ function doPost(e) {
       }else{
         replyContents.push(serverAlival());
       }
+
     } else {
       replyMessage = funcController(userMessage);
       if (replyMessage.length !== 0) {
