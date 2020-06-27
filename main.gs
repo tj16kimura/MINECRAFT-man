@@ -37,7 +37,10 @@ function doPost(e) {
       var user = getUserProfile(userId, groupId);
       replyMessage = user.displayName + 'に賛成!';
       replyContents.push(makeMes('text', replyMessage));
-      replyContents.push(makeMes('image', user.pictureUrl));
+      // replyContents.push(makeMes('image', user.pictureUrl));
+      // 40 stickers / package
+      var random = Math.floor(Math.random()*40);
+      replyContents.push(makeMes('sticker', random));
 
     } else if(['さば', 'サバ', '鯖', 'saba', 'sava'].some(el => userMessage.includes(el))){
       var random = Math.ceil(Math.random()*10);
