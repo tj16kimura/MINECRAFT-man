@@ -22,7 +22,7 @@ function sendMes(token, message){
 
 function makeMes(type, content){
   // apiに投げれるようなメッセージオブジェクトを作成する
-  var ret;
+  var ret = null;
   // テキストメッセージ
   if(type == 'text'){
     ret = {
@@ -35,6 +35,14 @@ function makeMes(type, content){
       'type': 'image',
       'originalContentUrl': content,
       'previewImageUrl': content,
+    }
+  }else if(type == 'sticker'){
+    ret = {
+      'type': 'sticker',
+      // packageは固定する
+      'packageId': '11537',
+      // 40 stickers / package
+      'stickerId': content + 52002734
     }
   }
   return ret
