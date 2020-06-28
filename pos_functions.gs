@@ -196,6 +196,22 @@ function deletePos(name) {
   return message;
 }
 
+function genMap(){
+  // Sheet情報を取得
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS');
+  // Sheet
+  var sheet = sheet_info[0];
+  
+  var chart = sheet.getCharts()[0].getBlob();
+  var folder = DriveApp.getFolderById(FOLDER_ID);
+  var file = folder.createFile(chart);
+  file.setName('world-map');
+  
+  file.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.EDIT)
+  
+  return file.getDownloadUrl();
+}
+
 function getSheetInfo(SHEET_ID, SHEET_NAME, name) {
   /* Sheet情報を取得 */
   // SpreadSheetを取得
@@ -231,5 +247,6 @@ function demo(msg) {
 //  msg = updatePos('B.4.5.~');
 //  msg = deletePos('B');
   
-  sheet.getRange(2, 5).setValue(msg);
+//  sheet.getRange(2, 5).setValue(msg);
+  Logger.log(genMap());
 }
