@@ -196,28 +196,50 @@ function deletePos(name) {
   return message;
 }
 
+function genMap(){
+  // Sheet情報を取得
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS');
+  // Sheet
+  var sheet = sheet_info[0];
+  
+  var chart = sheet.getCharts()[0].getBlob();
+  var folder = DriveApp.getFolderById(FOLDER_ID);
+  var file = folder.createFile(chart);
+  file.setName('world-map');
+  
+  file.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.EDIT)
+  
+  return file.getDownloadUrl();
+}
+
 function getSheetInfo(SHEET_ID, SHEET_NAME, name) {
   /* Sheet情報を取得 */
   // SpreadSheetを取得
   var spreadsheet = SpreadsheetApp.openById(SHEET_ID);
   // POSのシートを取得
   var sheet = spreadsheet.getSheetByName(SHEET_NAME);
-  // 行数を取得 ラベルがあるため -1 -> これはTable上部の位置により変動
-  var num_row = sheet.getLastRow() - 1;
-  // nameの登録チェック
-  var exist_name ;
-  if (!name) {
-    exist_name = null;
-  } else {
-    exist_name = sheet.getRange(2, 1, num_row, 1).createTextFinder(name).matchEntireCell(true).findNext();
-  }
   
-  return [sheet, num_row, exist_name];
+  if (SHEET_NAME == 'POS') {
+    // 行数を取得 ラベルがあるため -1 -> これはTable上部の位置により変動
+    var num_row = sheet.getLastRow() - 1;
+    // nameの登録チェック
+    var exist_name ;
+    if (!name) {
+      exist_name = null;
+    } else {
+      exist_name = sheet.getRange(2, 1, num_row, 1).createTextFinder(name).matchEntireCell(true).findNext();
+    }
+    
+    return [sheet, num_row, exist_name];
+  } else if (SHEET_NAME == 'BTN') {
+    return [sheet];
+  }
 }
 
 function demo(msg) {
   // Sheet情報を取得
-  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS');
+//  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS');
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'BTN');
   // Sheet
   var sheet = sheet_info[0];
   var msg;
@@ -231,5 +253,8 @@ function demo(msg) {
 //  msg = updatePos('B.4.5.~');
 //  msg = deletePos('B');
   
-  sheet.getRange(2, 5).setValue(msg);
+  sheet.getRange(1, 1).setValue(msg);
+  
+//  sheet.getRange(2, 5).setValue(msg);
+//  Logger.log(genMap());
 }

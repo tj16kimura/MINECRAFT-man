@@ -22,6 +22,16 @@ function doPost(e) {
     return;
   }
   
+  if (event.type == 'postback') {
+    /* ボタンが押されたときの処理 */
+    // json形式にまとめる
+    var pbdata = {};
+    pbdata['userId'] = userId;
+    pbdata['timeStamp'] = event.timestamp;
+    pbdata['data'] = event.postback.data;
+    demo(pbdata);
+  }
+  
   if(event.type == 'message') {
     var userMessage = event.message.text;
     var replyMessage;
@@ -37,10 +47,7 @@ function doPost(e) {
       var user = getUserProfile(userId, groupId);
       replyMessage = user.displayName + 'に賛成!';
       replyContents.push(makeMes('text', replyMessage));
-      // replyContents.push(makeMes('image', user.pictureUrl));
-      // 40 stickers / package
-      var random = Math.floor(Math.random()*40);
-      replyContents.push(makeMes('sticker', random));
+      replyContents.push(makeMes('image', user.pictureUrl));
 
     } else if(['さば', 'サバ', '鯖', 'saba', 'sava'].some(el => userMessage.includes(el))){
       var random = Math.ceil(Math.random()*10);
@@ -49,7 +56,8 @@ function doPost(e) {
       }else{
         replyContents.push(serverAlival());
       }
-
+    } else if (userMessage == 'button') {
+      replyContents.push(buttonTemplete());
     } else {
       replyMessage = funcController(userMessage);
       if (replyMessage.length !== 0) {

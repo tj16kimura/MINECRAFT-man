@@ -33,7 +33,3 @@ function funcController(userMessage) {
   
   return replyMessage;
 }
-
-function test() {
-  funcController('/-.20.30');
-}
