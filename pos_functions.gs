@@ -202,8 +202,22 @@ function genMap(){
   // Sheet
   var sheet = sheet_info[0];
   
-  var chart = sheet.getCharts()[0].getBlob();
   var folder = DriveApp.getFolderById(FOLDER_ID);
+  
+  // 古いmapを削除する
+  var files = folder.getFiles();
+  while(files.hasNext()){
+    var buf = files.next();
+    var name = buf.getName();
+    var id = buf.getId();
+    if (buf.getName() == 'world-map'){
+      var temp = DriveApp.getFileById(id);
+      folder.removeFile(temp);
+    }
+  }
+  
+  // 新たなmapを作成
+  var chart = sheet.getCharts()[0].getBlob();
   var file = folder.createFile(chart);
   file.setName('world-map');
   
