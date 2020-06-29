@@ -59,9 +59,9 @@ function doPost(e) {
     } else if (userMessage == 'button') {
       replyContents.push(buttonTemplete());
     } else {
-      replyMessage = funcController(userMessage);
-      if (replyMessage.length !== 0) {
-        replyContents.push(makeMes('text', replyMessage));
+      var reply = funcController(userMessage);
+      if (reply.replyMessage.length !== 0) {
+        replyContents.push(makeMes(reply.replyType, reply.replyMessage));
       }
     }
     
