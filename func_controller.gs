@@ -42,7 +42,3 @@ function funcController(userMessage) {
   
   return {replyType: replyType, replyMessage: replyMessage};
 }
-
-function test() {
-  funcController('/-.20.30');
-}
