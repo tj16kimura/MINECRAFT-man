@@ -222,7 +222,7 @@ function genMap(){
   var file = folder.createFile(chart);
   file.setName('world-map');
   
-  file.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.EDIT)
+  file.setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.EDIT);
   
   return file.getDownloadUrl();
 }
@@ -253,8 +253,8 @@ function getSheetInfo(SHEET_ID, SHEET_NAME, name) {
 
 function demo(msg) {
   // Sheet情報を取得
-//  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS');
-  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'BTN');
+  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'POS');
+//  var sheet_info = getSheetInfo(SPREADSHEET_ID, 'BTN');
   // Sheet
   var sheet = sheet_info[0];
   var msg;
