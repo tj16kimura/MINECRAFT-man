@@ -188,6 +188,7 @@ function deletePos(name) {
   // nameの座標を取得
   // pos_name[0][i]
   var pos_name = sheet.getRange('A'+cell_name+':'+'D'+cell_name).clearContent();
+  sheet.deleteRow(cell_name);
   
   // Messageを生成
   message = '-- DEL --\n';
@@ -267,7 +268,7 @@ function demo(msg) {
 //  msg = updatePos('B.4.5.~');
 //  msg = deletePos('B');
   
-  sheet.getRange(1, 1).setValue(msg);
+//  sheet.getRange(1, 1).setValue(msg);
   
 //  sheet.getRange(2, 5).setValue(msg);
 //  Logger.log(genMap());
